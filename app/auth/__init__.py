@@ -26,6 +26,8 @@ def login():
             login_user(user)
             flash("Welcome")
             return redirect(url_for('auth.dashboard'))
+    else:
+        flash("Invalid username or password")
     return render_template('login.html', form=form)
 
 
@@ -45,7 +47,8 @@ def register():
         else:
             flash('Already Registered')
             return redirect(url_for('auth.login'))
-    return render_template('register.html', form=form)
+    elif not form.validate_on_submit():
+        flash('Already Registered')
 
 
 @auth.route('/dashboard')
