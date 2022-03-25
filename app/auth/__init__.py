@@ -63,6 +63,8 @@ def login():
             login_user(user)
             flash("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
+    else:
+        flash("Invalid username or password")
     return render_template('login.html', form=form)
 
 @auth.route("/logout")
