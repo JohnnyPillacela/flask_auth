@@ -1,6 +1,4 @@
-import logging
-
-from flask import Blueprint, render_template, redirect, url_for, flash, current_app, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort
 from flask_login import login_user, login_required, logout_user, current_user
 from jinja2 import TemplateNotFound
 from sqlalchemy import select
@@ -51,20 +49,21 @@ def login():
     form = login_form()
     if current_user.is_authenticated:
         return redirect(url_for('auth.dashboard'))
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('auth.login'))
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user is None or not user.check_password(form.password.data):
+                flash('Invalid username or password')
+                return redirect(url_for('auth.login'))
+            else:
+                user.authenticated = True
+                db.session.add(user)
+                db.session.commit()
+                login_user(user)
+                flash("Welcome")
+                return redirect(url_for('auth.dashboard'))
         else:
-            user.authenticated = True
-            db.session.add(user)
-            db.session.commit()
-            login_user(user)
-            flash("Welcome", 'success')
-            return redirect(url_for('auth.dashboard'))
-    else:
-        flash("Invalid username or password")
+            flash('Invalid username or password')
     return render_template('login.html', form=form)
 
 @auth.route("/logout")
@@ -204,6 +203,15 @@ def delete_user(user_id):
     return redirect(url_for('auth.browse_users'), 302)
 
 
-
-
-
+@auth.route('/account', methods=['POST', 'GET'])
+def edit_account():
+    user = User.query.get(current_user.get_id())
+    form = security_form(obj=user)
+    if form.validate_on_submit():
+        user.email = form.email.data
+        user.password = form.password.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash('You Successfully Updated your Password or Email', 'success')
+        return redirect(url_for('auth.dashboard'))
+    return render_template('manage_account.html', form=form)
