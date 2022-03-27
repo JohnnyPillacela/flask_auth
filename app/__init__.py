@@ -41,6 +41,7 @@ def create_app():
     # https://wtforms.readthedocs.io/en/3.0.x/
     csrf = CSRFProtect(app)
     # https://bootstrap-flask.readthedocs.io/en/stable/
+    csrf.exempt(auth)
     bootstrap = Bootstrap5(app)
     # these load functions with web interface
     app.register_blueprint(simple_pages)
@@ -60,6 +61,7 @@ def create_app():
     }
     CORS(app, resources={"/api/*": api_v1_cors_config})
     # Run once at startup:
+    # Setup Flask-User and specify the User data-model
     return app
 
 
