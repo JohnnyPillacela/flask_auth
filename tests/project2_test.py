@@ -28,7 +28,7 @@ def test_bad_username_email_login(client, username, password, message):
 @pytest.mark.parametrize(
     ("username", "password", "message"),
     (("test@test.com", "test", b"Already Registered"),
-     ("a@a.com", "a", b"Already Registered")),
+     ("j@j.com", "a", b"Already Registered")),
 )
 def test_bad_username_email_registration(client, username, password, message):
     response = client.post("/register", data=dict(email=username,password=password))
@@ -36,14 +36,14 @@ def test_bad_username_email_registration(client, username, password, message):
     return client.post('/register', data=dict(email=username, password=password), follow_redirects=True)
 
 @pytest.mark.parametrize(
-    ("username", "password", "message"),
-    (("test@test.com", "test", b"Already Registered"),
-     ("a@a.com", "a", b"Already Registered")),
+    ("username", "password", "confirm", "message"),
+    (("j@j.com", "test", "test1", b"Passwords must match"),
+     ("a@a.com", "a", "a1", b"Passwords must match")),
 )
-def test_password_confirmation_registration(client, username, password, message):
-    response = client.post("/register", data=dict(email=username,password=password))
+def test_password_confirmation_registration(client, username, password, confirm, message):
+    response = client.post("/register", data=dict(email=username,password=password,confirm=confirm))
     assert message in response.data
-    return client.post('/register', data=dict(email=username, password=password), follow_redirects=True)
+    return client.post('/register', data=dict(email=username, password=password,confirm=confirm), follow_redirects=True)
 
 
 def test_bad_password_criteria_registration():

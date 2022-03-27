@@ -37,7 +37,9 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('auth.dashboard'))
     form = register_form()
+    print("Form is")
     if request.method == 'POST':
+        print(form.validate())
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user is None:
@@ -47,8 +49,12 @@ def register():
                 flash('Congratulations, you are now a registered user!', "success")
                 return redirect(url_for('auth.login'))
             else:
-                flash('Already Registered')
-                return redirect(url_for('auth.login'))
+                flash("User with that email already exists");
+        elif 'password' in form.errors.keys() and 'Passwords must match' in form.errors['password']:
+            flash('Passwords must match')
+        # print(form.errors['password'])
+        # print(form.errors.keys())
+        # print('password' in form.errors)
     return render_template('register.html', form=form)
 
 
