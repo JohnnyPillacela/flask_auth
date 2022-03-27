@@ -37,6 +37,7 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
     csrf = CSRFProtect(app)
+    csrf.exempt(auth)
     bootstrap = Bootstrap5(app)
     app.register_blueprint(simple_pages)
     app.register_blueprint(auth)
@@ -52,7 +53,6 @@ def create_app():
     # add command function to cli commands
     app.cli.add_command(create_database)
     # Setup Flask-User and specify the User data-model
-
     return app
 
 
