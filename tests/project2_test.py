@@ -1,6 +1,9 @@
+from urllib import request
+
 import pytest
 from flask import g
 from flask import session
+import app
 
 """Tests for Project 2"""
 
@@ -15,44 +18,58 @@ def test_bad_password_login(client, username, password, message):
     assert response.status_code == 200
     assert message in response.data
 
+
 @pytest.mark.parametrize(
     ("username", "password", "message"),
     (("a@a.com", "test", b"Invalid username or password"),
      ("test@test.com", "a", b"Invalid username or password")),
 )
 def test_bad_username_email_login(client, username, password, message):
-    response = client.post("/login", data=dict(email=username,password=password))
+    response = client.post("/login", data=dict(email=username, password=password))
     assert message in response.data
     return client.post('/login', data=dict(email=username, password=password), follow_redirects=True)
 
-@pytest.mark.parametrize(
-    ("username", "password", "message"),
-    (("test@test.com", "test", b"Already Registered"),
-     ("j@j.com", "a", b"Already Registered")),
-)
-def test_bad_username_email_registration(client, username, password, message):
-    response = client.post("/register", data=dict(email=username,password=password))
-    assert message in response.data
-    return client.post('/register', data=dict(email=username, password=password), follow_redirects=True)
 
 @pytest.mark.parametrize(
     ("username", "password", "confirm", "message"),
-    (("j@j.com", "test", "test1", b"Passwords must match"),
-     ("a@a.com", "a", "a1", b"Passwords must match")),
+    (("test1", "test123", "test123", b"Invalid email address."),
+     ("test2", "test123", "test123", b"Invalid email address.")),
+)
+def test_bad_username_email_registration(client, username, password, confirm, message):
+    response = client.post("/register", data=dict(email=username, password=password, confirm=confirm))
+    assert message in response.data
+
+
+@pytest.mark.parametrize(
+    ("username", "password", "confirm", "message"),
+    (("j@j.com", "test123", "test1234", b"Passwords must match"),
+     ("a@a.com", "a12345", "a123456", b"Passwords must match")),
 )
 def test_password_confirmation_registration(client, username, password, confirm, message):
-    response = client.post("/register", data=dict(email=username,password=password,confirm=confirm))
+    response = client.post("/register", data=dict(email=username, password=password, confirm=confirm))
     assert message in response.data
-    return client.post('/register', data=dict(email=username, password=password,confirm=confirm), follow_redirects=True)
+    # return client.post('/register', data=dict(email=username, password=password, confirm=confirm), follow_redirects=True)
 
 
-def test_bad_password_criteria_registration():
-    pass
+@pytest.mark.parametrize(
+    ("username", "password", "confirm", "message"),
+    (("j@j.com", "test", "test", b"Field must be between 6 and 35 characters long."),
+     ("a@a.com", "a", "a", b"Field must be between 6 and 35 characters long.")),
+)
+def test_bad_password_criteria_registration(client, username, password, confirm, message):
+    response = client.post("/register", data=dict(email=username, password=password, confirm=confirm))
+    assert message in response.data
 
 
-def test_already_registered():
-    pass
-
+@pytest.mark.parametrize(
+    ("username", "password", "confirm", "message"),
+    (("test1@test1.com", "test123", "test123", b"User with that email already exists"),
+     ("test2@test1.com", "test123", "test123", b"User with that email already exists")),
+)
+def test_already_registered(client, username, password, confirm, message):
+    response = client.post("/register", data=dict(email=username, password=password, confirm=confirm))
+    response2 = client.post("/register", data=dict(email=username, password=password, confirm=confirm))
+    assert message in response2.data
 
 def test_successful_login():
     pass
