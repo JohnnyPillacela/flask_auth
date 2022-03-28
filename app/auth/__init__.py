@@ -12,7 +12,6 @@ from flask_mail import Message
 
 auth = Blueprint('auth', __name__, template_folder='templates')
 
-
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
@@ -64,6 +63,40 @@ def login():
         else:
             flash('Invalid username or password')
     return render_template('login.html', form=form)
+
+@auth.route('/register', methods=['POST', 'GET'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('auth.dashboard'))
+    form = register_form()
+    print("Form is")
+    if request.method == 'POST':
+        print(form.validate())
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            print()
+            if user is None:
+                print("User added")
+                user = User(email=form.email.data, password=generate_password_hash(form.password.data))
+                db.session.add(user)
+                db.session.commit()
+                flash('Congratulations, you are now a registered user!', "success")
+                # return redirect(url_for('auth.login'))
+            elif user is not None:
+                print("wtf")
+                print(form.errors.items())
+                flash("User with that email already exists")
+                # return redirect(url_for('auth.register'))
+        elif 'password' in form.errors.keys() and 'Passwords must match' in form.errors['password']:
+            flash('Passwords must match')
+        elif 'password' in form.errors.keys() and 'Field must be between 6 and 35 characters long.' in form.errors['password']:
+            flash('Field must be between 6 and 35 characters long.')
+        elif 'email' in form.errors.keys() and 'Invalid email address.' in form.errors['email']:
+            flash('Invalid email address.')
+
+        print(form.errors.keys())
+        print(form.errors.items())
+    return render_template('register.html', form=form)
 
 @auth.route("/logout")
 @login_required
