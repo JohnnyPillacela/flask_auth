@@ -41,16 +41,16 @@ def register():
         print(form.validate())
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
-            print("huh")
+            print()
             if user is None:
                 print("User added")
                 user = User(email=form.email.data, password=generate_password_hash(form.password.data))
                 db.session.add(user)
                 db.session.commit()
                 flash('Congratulations, you are now a registered user!', "success")
-                return redirect(url_for('auth.login'))
+                # return redirect(url_for('auth.login'))
             elif user is not None:
-                print("Here")
+                print("wtf")
                 print(form.errors.items())
                 flash("User with that email already exists")
                 # return redirect(url_for('auth.register'))

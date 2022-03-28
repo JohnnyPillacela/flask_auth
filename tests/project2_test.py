@@ -1,6 +1,8 @@
 from urllib import request
 
 import pytest
+from app.db.models import User
+from app.db import db
 from flask import g
 from flask import session
 import app
@@ -71,13 +73,27 @@ def test_already_registered(client, username, password, confirm, message):
     response2 = client.post("/register", data=dict(email=username, password=password, confirm=confirm))
     assert message in response2.data
 
-def test_successful_login():
-    pass
+@pytest.mark.parametrize(
+    ("username", "password", "message"),
+    (("j@j.com", "testvgfhgbh", b"Welcome"),
+     ("j@j.com", "agvjhhgbghkk", b"Welcome")),
+)
+def test_successful_login(client, username, password, message):
+    response = client.post("/login", data={"email": username, "password": password})
+    assert response.status_code == 200
+    assert message in response.data
 
 
-def test_successful_registration():
-    pass
-
+@pytest.mark.parametrize(
+    ("username", "password", "confirm", "message"),
+    (("test1@test.com", "test123", "test123", b"Congratulations, you are now a registered user!"),
+     ("test2@test.com", "a123456", "a123456", b"Congratulations, you are now a registered user!")),
+)
+def test_successful_registration(client, username, password, confirm, message):
+    response = client.post("/register", data=dict(email=username, password=password, confirm=password))
+    # User.query.filter(User.email == username).delete()
+    # db.session.commit()
+    assert message in response.data
 
 def test_deny_dashboard_access_for_logged_users():
     pass
