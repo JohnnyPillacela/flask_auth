@@ -48,6 +48,7 @@ def create_app():
     db_dir = "database/db.sqlite"
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.abspath(db_dir)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['WTF_CSRF_ENABLED'] = False
 
     db.init_app(app)
     # add command function to cli commands

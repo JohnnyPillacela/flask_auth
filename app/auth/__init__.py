@@ -19,7 +19,6 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if user is None or not user.check_password(form.password.data):
                 flash('Invalid username or password')
-                return redirect(url_for('auth.login'))
             else:
                 user.authenticated = True
                 db.session.add(user)
@@ -42,19 +41,28 @@ def register():
         print(form.validate())
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
+            print("huh")
             if user is None:
+                print("User added")
                 user = User(email=form.email.data, password=generate_password_hash(form.password.data))
                 db.session.add(user)
                 db.session.commit()
                 flash('Congratulations, you are now a registered user!', "success")
                 return redirect(url_for('auth.login'))
-            else:
-                flash("User with that email already exists");
+            elif user is not None:
+                print("Here")
+                print(form.errors.items())
+                flash("User with that email already exists")
+                # return redirect(url_for('auth.register'))
         elif 'password' in form.errors.keys() and 'Passwords must match' in form.errors['password']:
             flash('Passwords must match')
-        # print(form.errors['password'])
-        # print(form.errors.keys())
-        # print('password' in form.errors)
+        elif 'password' in form.errors.keys() and 'Field must be between 6 and 35 characters long.' in form.errors['password']:
+            flash('Field must be between 6 and 35 characters long.')
+        elif 'email' in form.errors.keys() and 'Invalid email address.' in form.errors['email']:
+            flash('Invalid email address.')
+
+        print(form.errors.keys())
+        print(form.errors.items())
     return render_template('register.html', form=form)
 
 
