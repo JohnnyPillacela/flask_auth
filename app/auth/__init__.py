@@ -81,12 +81,12 @@ def register():
                 db.session.add(user)
                 db.session.commit()
                 flash('Congratulations, you are now a registered user!', "success")
-                # return redirect(url_for('auth.login'))
+                return redirect(url_for('auth.dashboard'))
             elif user is not None:
                 print("wtf")
                 print(form.errors.items())
                 flash("User with that email already exists")
-                # return redirect(url_for('auth.register'))
+                return redirect(url_for('auth.register'))
         elif 'password' in form.errors.keys() and 'Passwords must match' in form.errors['password']:
             flash('Passwords must match')
         elif 'password' in form.errors.keys() and 'Field must be between 6 and 35 characters long.' in form.errors['password']:
