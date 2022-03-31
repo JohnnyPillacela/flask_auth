@@ -92,7 +92,6 @@ def test_successful_login(client, username, password, message):
     assert message in response.data
 
 
-
 def test_successful_registration(client):
     db.create_all(app=create_app())
     message = b"Congratulations, you are now a registered user!"
