@@ -19,12 +19,17 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if user is None or not user.check_password(form.password.data):
                 flash('Invalid username or password')
+                return redirect(url_for('auth.login'))
             else:
                 user.authenticated = True
                 db.session.add(user)
                 db.session.commit()
+                if user.id == 1:
+                    user.is_admin = 1
+                    db.session.add(user)
+                    db.session.commit()
                 login_user(user)
-                flash("Welcome")
+                flash("Welcome", 'success')
                 return redirect(url_for('auth.dashboard'))
         else:
             flash('Invalid username or password')
