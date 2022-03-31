@@ -14,25 +14,25 @@ import app
 
 
 @pytest.mark.parametrize(
-    ("username", "password", "message"),
-    (("j@j.com", "testvgfhgbh", b"Invalid username or password"),
+    ("email", "password", "message"),
+    (("j@j.com", "sdgfhkjnsdf", b"Invalid username or password"),
      ("j@j.com", "agvjhhgbghkk", b"Invalid username or password")),
 )
-def test_bad_password_login(client, username, password, message):
-    response = client.post("/login", data={"email": username, "password": password}, follow_redirects=True)
+def test_bad_password_login(client, email, password, message):
+    response = client.post("/login", data={"email": email, "password": password}, follow_redirects=True)
     assert response.status_code == 200
     assert message in response.data
 
 
 @pytest.mark.parametrize(
-    ("username", "password", "message"),
+    ("email", "password", "message"),
     (("a@a.com", "test", b"Invalid username or password"),
      ("test@test.com", "a", b"Invalid username or password")),
 )
-def test_bad_username_email_login(client, username, password, message):
-    response = client.post("/login", data=dict(email=username, password=password), follow_redirects=True)
+def test_bad_username_email_login(client, email, password, message):
+    response = client.post("/login", data=dict(email=email, password=password), follow_redirects=True)
     assert message in response.data
-    return client.post('/login', data=dict(email=username, password=password), follow_redirects=True)
+    return client.post('/login', data=dict(email=email, password=password), follow_redirects=True)
 
 
 @pytest.mark.parametrize(
@@ -58,58 +58,47 @@ def test_password_confirmation_registration(client, username, password, confirm,
 
 
 @pytest.mark.parametrize(
-    ("username", "password", "confirm", "message"),
-    (("j@j.com", "test", "test", b"Field must be between 6 and 35 characters long."),
-     ("a@a.com", "a", "a", b"Field must be between 6 and 35 characters long.")),
+    ("username", "password", "confirm"),
+    (("j@j.com", "test", "test"),
+     ("a@a.com", "a", "a")),
 )
-def test_bad_password_criteria_registration(client, username, password, confirm, message):
+def test_bad_password_criteria_registration(client, username, password, confirm):
     response = client.post("/register", data=dict(email=username, password=password, confirm=confirm),
                            follow_redirects=True)
-    assert message in response.data
+    assert b"Field must be between 6 and 35 characters long." in response.data
 
 
-@pytest.mark.parametrize(
-    ("username", "password", "confirm", "message"),
-    (("test1@test1.com", "test123", "test123", b"User with that email already exists"),
-     ("test2@test1.com", "test123", "test123", b"User with that email already exists")),
-)
-def test_already_registered(client, username, password, confirm, message):
-    response = client.post("/register", data=dict(email=username, password=password, confirm=confirm),
+def test_already_registered(client):
+    email = "test1@test1.com"
+    password = "test123"
+    response = client.post("/register", data=dict(email=email, password=password, confirm=password),
                            follow_redirects=True)
-    response2 = client.post("/register", data=dict(email=username, password=password, confirm=confirm),
+    response2 = client.post("/register", data=dict(email=email, password=password, confirm=password),
                             follow_redirects=True)
-    assert message in response2.data
+    assert b"Already Registered" in response2.data
 
 
-@pytest.mark.parametrize(
-    ("username", "password", "message"),
-    (("j@j.com", "testvgfhgbh", b"Welcome"),
-     ("j@j.com", "agvjhhgbghkk", b"Welcome")),
-)
-def test_successful_login(client, username, password, message):
-    response = client.post("/login", data={"email": username, "password": password}, follow_redirects=True)
+def test_successful_login(client):
+    response = client.post("/login", data={"email": "j@j.com", "password": "123456"}, follow_redirects=True)
     assert response.status_code == 200
-    assert message in response.data
+    assert b"Welcome" in response.data
 
 
-def test_successful_registration(client):
-    db.create_all(app=create_app())
-    message = b"Congratulations, you are now a registered user!"
+def test_successful_registration(client, application):
     response = client.post("/register",
-                           data={"email": "tesil@tsjn0.com", "password": "test123", "confirm": "test123"},
+                           data={"email": "test123456@test123456.com", "password": "test123", "confirm": "test123"},
                            follow_redirects=True)
-    print("pill")
-    print(current_user)
-    print("la")
-    # user = current_user.get_id()
-    client.post('/logout')  # logout the new registered user
-    client.post("/login", data={"email": "j@j.com", "password": "123456"}, follow_redirects=True)
-    client.post("/users/<int:user>/delete", )  # delete the new registered user so next time this test works
-    assert message in response.data
-
+    assert b"Congratulations, you are now a registered user!" in response.data
+    with application.app_context():
+        client.post("/login",
+                    data={"email": "j@j.com", "password": "123456", "confirm": "123456"},
+                    follow_redirects=True)
+        user_to_delete = User.query.filter_by(email="test123456@test123456.com").first()
+        response = client.post("/users/"+user_to_delete.get_id()+"/delete", follow_redirects=True)
+        assert response.status_code == 200
 
 def test_deny_dashboard_access_for_logged_users():
-    pass
+    assert 100 == 100
 
 
 def test_dashboard_access_for_logged_users():
