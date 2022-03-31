@@ -5,8 +5,11 @@ from werkzeug.security import generate_password_hash
 from app.auth.forms import login_form, register_form, profile_form, security_form, user_edit_form
 from app.db import db
 from app.db.models import User
-
+from app.auth.decorators import admin_required
 auth = Blueprint('auth', __name__, template_folder='templates')
+from flask import current_app
+
+
 
 
 @auth.route('/login', methods=['POST', 'GET'])
@@ -28,6 +31,18 @@ def login():
                 return redirect(url_for('auth.dashboard'))
         else:
             flash('Invalid username or password')
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('auth.login'))
+        else:
+            user.authenticated = True
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            flash("Welcome", 'success')
+            return redirect(url_for('auth.dashboard'))
     return render_template('login.html', form=form)
 
 
@@ -36,33 +51,28 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('auth.dashboard'))
     form = register_form()
-    print("Form is")
     if request.method == 'POST':
-        print(form.validate())
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
-            print()
             if user is None:
-                print("User added")
                 user = User(email=form.email.data, password=generate_password_hash(form.password.data))
                 db.session.add(user)
                 db.session.commit()
+                if user.id == 1:
+                    user.is_admin = 1
+                    db.session.add(user)
+                    db.session.commit()
                 flash('Congratulations, you are now a registered user!', "success")
-                return redirect(url_for('auth.dashboard'))
-            elif user is not None:
-                print("wtf")
-                print(form.errors.items())
-                flash("User with that email already exists")
-                return redirect(url_for('auth.register'))
+                return redirect(url_for('auth.login'), 302)
+            else:
+                flash('Already Registered')
+                return redirect(url_for('auth.login'), 302)
         elif 'password' in form.errors.keys() and 'Passwords must match' in form.errors['password']:
             flash('Passwords must match')
         elif 'password' in form.errors.keys() and 'Field must be between 6 and 35 characters long.' in form.errors['password']:
             flash('Field must be between 6 and 35 characters long.')
         elif 'email' in form.errors.keys() and 'Invalid email address.' in form.errors['email']:
             flash('Invalid email address.')
-
-        print(form.errors.keys())
-        print(form.errors.items())
     return render_template('register.html', form=form)
 
 
@@ -86,7 +96,10 @@ def logout():
 
 @auth.route('/users')
 @login_required
+@admin_required
 def browse_users():
+    current_app.logger.info('Info level log')
+    current_app.logger.warning('Warning level log')
     data = User.query.all()
     titles = [('email', 'Email'), ('registered_on', 'Registered On')]
     retrieve_url = ('auth.retrieve_user', [('user_id', ':id')])
@@ -175,3 +188,5 @@ def edit_account():
         flash('You Successfully Updated your Password or Email', 'success')
         return redirect(url_for('auth.dashboard'))
     return render_template('manage_account.html', form=form)
+
+
