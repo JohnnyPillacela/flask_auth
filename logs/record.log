@@ -198,3 +198,9 @@
    WARNING: This is a development server. Do not use it in a production deployment.
 2022-04-01 03:24:29,144 INFO werkzeug MainThread :  * Running on http://172.18.0.2:5000/ (Press CTRL+C to quit)
 2022-04-01 03:24:29,145 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-01 04:23:25,195 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-01 04:23:25,273 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-01 04:23:41,172 WARNING werkzeug MainThread :  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2022-04-01 04:23:41,174 INFO werkzeug MainThread :  * Running on http://172.18.0.2:5000/ (Press CTRL+C to quit)
+2022-04-01 04:23:41,175 INFO werkzeug MainThread :  * Restarting with stat

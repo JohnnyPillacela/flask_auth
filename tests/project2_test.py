@@ -94,8 +94,9 @@ def test_successful_registration(client, application):
                     data={"email": "j@j.com", "password": "123456", "confirm": "123456"},
                     follow_redirects=True)
         user_to_delete = User.query.filter_by(email="test123456@test123456.com").first()
-        response = client.post("/users/"+user_to_delete.get_id()+"/delete", follow_redirects=True)
+        response = client.post("/users/" + user_to_delete.get_id() + "/delete", follow_redirects=True)
         assert response.status_code == 200
+
 
 def test_deny_dashboard_access_for_logged_users():
     pass
