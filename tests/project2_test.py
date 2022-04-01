@@ -86,20 +86,26 @@ def test_successful_login(client):
 
 def test_successful_registration(client, application):
     response = client.post("/register",
-                           data={"email": "test123456@test123456.com", "password": "test123", "confirm": "test123"},
+                           data={"email": "user_to_be_deleted@delete.com", "password": "test1234", "confirm": "test1234"},
                            follow_redirects=True)
     assert b"Congratulations, you are now a registered user!" in response.data
     with application.app_context():
         client.post("/login",
                     data={"email": "j@j.com", "password": "123456", "confirm": "123456"},
                     follow_redirects=True)
-        user_to_delete = User.query.filter_by(email="test123456@test123456.com").first()
-        response = client.post("/users/"+user_to_delete.get_id()+"/delete", follow_redirects=True)
+        user_to_delete = User.query.filter_by(email="user_to_be_deleted@delete.com").first()
+        response = client.post("/users/" + user_to_delete.get_id() + "/delete", follow_redirects=True)
         assert response.status_code == 200
 
-def test_deny_dashboard_access_for_logged_users():
-    pass
+
+def test_deny_dashboard_access_for_logged_users(client):
+    response = client.post("/dashboard", follow_redirects=True)
+    assert response.status_code == 405
 
 
-def test_dashboard_access_for_logged_users():
-    pass
+def test_dashboard_access_for_logged_users(client):
+    client.post("/login",
+                data={"email": "j@j.com", "password": "123456", "confirm": "123456"},
+                follow_redirects=True)
+    response = client.post("/dashboard", follow_redirects=True)
+    assert response.status_code == 405
