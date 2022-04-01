@@ -98,7 +98,7 @@ def test_successful_registration(client, application):
         assert response.status_code == 200
 
 def test_deny_dashboard_access_for_logged_users():
-    assert 100 == 100
+    pass
 
 
 def test_dashboard_access_for_logged_users():
