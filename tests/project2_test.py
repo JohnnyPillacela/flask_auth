@@ -47,14 +47,14 @@ def test_bad_username_email_registration(client, username, password, confirm, me
 
 
 @pytest.mark.parametrize(
-    ("username", "password", "confirm", "message"),
-    (("j@j.com", "test123", "test1234", b"Passwords must match"),
-     ("a@a.com", "a12345", "a123456", b"Passwords must match")),
+    ("email", "password", "confirm"),
+    (("j@j.com", "test123", "test1234"),
+     ("a@a.com", "a12345", "a123456")),
 )
-def test_password_confirmation_registration(client, username, password, confirm, message):
-    response = client.post("/register", data=dict(email=username, password=password, confirm=confirm),
+def test_password_confirmation_registration(client, email, password, confirm):
+    response = client.post("/register", data=dict(email=email, password=password, confirm=confirm),
                            follow_redirects=True)
-    assert message in response.data
+    assert b"Passwords must match" in response.data
 
 
 @pytest.mark.parametrize(
