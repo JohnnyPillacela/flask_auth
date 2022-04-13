@@ -3,12 +3,106 @@
     {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 
     <div class="row">
+        <div class="col-7">
+            <h2>Register</h2>
+            {{ render_form(form) }}
+        </div>
+        <div id="message" class="col-5">
+            <div id="letter" class="red">
+                Has lower case letter
+                <div class="progress">
+                    <div id="p-bar" class="progress-bar" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
 
-         <div class="col-7 mx-auto">
-             <h2>Register</h2>
-             {{ render_form(form) }}
-         </div>
+        </div>
     </div>
+    <style>
+        .invalid {
+            color: red;
+        }
 
+        .valid {
+            color: green;
+        }
+    </style>
+
+
+    <script>
+        const passwordField = document.getElementById("password");
+        const letter = document.getElementById("letter");
+        let hasLowerCase = 0;
+        let hasUpperCase = 0;
+        let hasNumbers = 0;
+
+        passwordField.onfocus = function () {
+            const message = document.getElementById("message");
+            message.style.display = "block";
+            message.style.border = "1px solid";
+        }
+
+        passwordField.onkeyup = function () {
+            const progress_bar = document.getElementById("p-bar");
+
+            let lowerCaseLetters = /[a-z]/g;
+            let upperCaseLetters = /[A-Z]/g;
+            let numbersPattern = /[0-9]/g;
+
+            let p_bar_width_string = progress_bar.style.width;
+            let p_bar_width_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
+
+            let currentLowerCase = passwordField.value.match(lowerCaseLetters) ? 1 : 0;
+            let currentUpperCase = passwordField.value.match(upperCaseLetters) ? 1 : 0;
+            let currentNumbers = passwordField.value.match(numbersPattern) ? 1 : 0;
+
+            if (hasLowerCase !== currentLowerCase && currentLowerCase) {
+                hasLowerCase = 1;
+                p_bar_width_value += 33;
+            } else if (hasLowerCase !== currentLowerCase && !currentLowerCase) {
+                hasLowerCase = 0;
+                p_bar_width_value -= 33;
+            }
+
+            if (hasUpperCase !== currentUpperCase && currentUpperCase) {
+                hasUpperCase = 1;
+                p_bar_width_value += 33;
+            } else if (hasUpperCase !== currentUpperCase && !currentUpperCase) {
+                hasUpperCase = 0;
+                p_bar_width_value -= 33;
+            }
+
+            if (hasNumbers !== currentNumbers && currentNumbers) {
+                hasNumbers = 1;
+                p_bar_width_value += 33;
+            } else if (hasNumbers !== currentNumbers && !currentNumbers) {
+                hasNumbers = 0;
+                p_bar_width_value -= 33;
+            }
+
+            let new_width = p_bar_width_value.toString().concat('%');
+            let hasAll = hasLowerCase && hasUpperCase && hasNumbers;
+            let hasNone = !hasLowerCase && !hasUpperCase && !hasNumbers
+
+            if (hasAll) {
+                progress_bar.style.width = '100%';
+            } else if (hasNone) {
+                progress_bar.style.width = '0%';
+            } else {
+                progress_bar.style.width = new_width;
+            }
+
+            console.log(p_bar_width_value);
+        }
+
+        /*
+        function keyChecker(globalCheck, currentCheck) {
+            if (globalCheck !== currentCheck && currentCheck){
+
+            }
+        }
+         */
+
+
+    </script>
 
 {% endblock %}

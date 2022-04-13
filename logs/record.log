@@ -283,3 +283,84 @@
  * Running on http://127.0.0.1:5000
  * Running on http://172.18.0.2:5000 (Press CTRL+C to quit)
 2022-04-06 16:52:34,798 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 01:36:14,257 INFO werkzeug MainThread :  * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.2:5000 (Press CTRL+C to quit)
+2022-04-13 01:36:14,259 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 01:36:21,290 INFO app Thread-3 : method: GET,  path: /,  status: 200,  duration: 0.11,  time: 2022-04-13T01:36:21Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:36:21,293 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 01:36:21] "GET / HTTP/1.1" 200 -
+2022-04-13 01:36:21,649 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 01:36:21] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2022-04-13 01:36:24,848 INFO app Thread-3 : method: GET,  path: /logout,  status: 302,  duration: 0.07,  time: 2022-04-13T01:36:24Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:36:24,851 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 01:36:24] "[32mGET /logout HTTP/1.1[0m" 302 -
+2022-04-13 01:36:24,866 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.01,  time: 2022-04-13T01:36:24Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:36:24,869 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 01:36:24] "GET /login HTTP/1.1" 200 -
+2022-04-13 01:36:26,436 INFO app Thread-3 : method: GET,  path: /register,  status: 200,  duration: 0.02,  time: 2022-04-13T01:36:26Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:36:26,440 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 01:36:26] "GET /register HTTP/1.1" 200 -
+2022-04-13 01:57:13,060 INFO app Thread-4 : method: GET,  path: /register,  status: 200,  duration: 0.02,  time: 2022-04-13T01:57:13Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:57:13,067 INFO werkzeug Thread-4 : 172.18.0.1 - - [13/Apr/2022 01:57:13] "GET /register HTTP/1.1" 200 -
+2022-04-13 01:57:58,323 INFO app Thread-4 : method: GET,  path: /register,  status: 200,  duration: 0.03,  time: 2022-04-13T01:57:58Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:57:58,328 INFO werkzeug Thread-4 : 172.18.0.1 - - [13/Apr/2022 01:57:58] "GET /register HTTP/1.1" 200 -
+2022-04-13 01:58:46,993 INFO app Thread-4 : method: GET,  path: /register,  status: 200,  duration: 0.02,  time: 2022-04-13T01:58:46Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:58:46,997 INFO werkzeug Thread-4 : 172.18.0.1 - - [13/Apr/2022 01:58:46] "GET /register HTTP/1.1" 200 -
+2022-04-13 01:58:47,604 INFO app Thread-4 : method: GET,  path: /register,  status: 200,  duration: 0.0,  time: 2022-04-13T01:58:47Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 01:58:47,608 INFO werkzeug Thread-4 : 172.18.0.1 - - [13/Apr/2022 01:58:47] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:25:06,058 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.02,  time: 2022-04-13T02:25:06Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:25:06,064 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:25:06] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:29:39,247 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.03,  time: 2022-04-13T02:29:39Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:29:39,251 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:29:39] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:32:25,781 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.02,  time: 2022-04-13T02:32:25Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:32:25,784 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:32:25] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:36:33,974 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.01,  time: 2022-04-13T02:36:33Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:36:33,977 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:36:33] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:36:34,446 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.0,  time: 2022-04-13T02:36:34Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:36:34,459 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:36:34] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:36:35,024 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.0,  time: 2022-04-13T02:36:35Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:36:35,042 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:36:35] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:37:57,740 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.04,  time: 2022-04-13T02:37:57Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:37:57,745 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:37:57] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:37:58,297 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.0,  time: 2022-04-13T02:37:58Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:37:58,305 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:37:58] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:39:24,168 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.03,  time: 2022-04-13T02:39:24Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:39:24,172 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:39:24] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:39:37,621 INFO app Thread-5 : method: GET,  path: /register,  status: 200,  duration: 0.0,  time: 2022-04-13T02:39:37Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:39:37,632 INFO werkzeug Thread-5 : 172.18.0.1 - - [13/Apr/2022 02:39:37] "GET /register HTTP/1.1" 200 -
+2022-04-13 02:50:57,107 INFO app Thread-3 : method: GET,  path: /welcome,  status: 200,  duration: 0.1,  time: 2022-04-13T02:50:57Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:50:57,115 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 02:50:57] "GET /welcome HTTP/1.1" 200 -
+2022-04-13 02:51:07,010 INFO werkzeug MainThread :  * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.2:5000 (Press CTRL+C to quit)
+2022-04-13 02:51:07,012 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 02:51:13,439 INFO app Thread-3 : method: GET,  path: /welcome,  status: 200,  duration: 0.1,  time: 2022-04-13T02:51:13Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:51:13,442 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 02:51:13] "GET /welcome HTTP/1.1" 200 -
+2022-04-13 02:51:14,190 INFO app Thread-3 : method: GET,  path: /welcome,  status: 200,  duration: 0.0,  time: 2022-04-13T02:51:14Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:51:14,205 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 02:51:14] "GET /welcome HTTP/1.1" 200 -
+2022-04-13 02:51:14,981 INFO app Thread-3 : method: GET,  path: /welcome,  status: 200,  duration: 0.01,  time: 2022-04-13T02:51:14Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:51:14,990 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 02:51:14] "GET /welcome HTTP/1.1" 200 -
+2022-04-13 02:51:18,863 INFO app Thread-3 : method: GET,  path: /register,  status: 200,  duration: 0.02,  time: 2022-04-13T02:51:18Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 02:51:18,866 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 02:51:18] "GET /register HTTP/1.1" 200 -
+2022-04-13 03:01:13,808 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:01:13,856 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:02:44,592 INFO werkzeug MainThread :  * Detected change in '/home/myuser/app/__init__.py', reloading
+2022-04-13 03:02:44,640 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:03:09,672 INFO werkzeug MainThread :  * Detected change in '/home/myuser/app/__init__.py', reloading
+2022-04-13 03:03:09,723 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:04:33,011 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:04:33,055 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:12:22,460 INFO app Thread-3 : method: GET,  path: /register,  status: 200,  duration: 0.08,  time: 2022-04-13T03:12:22Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:12:22,464 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:12:22] "GET /register HTTP/1.1" 200 -
+2022-04-13 03:12:52,408 INFO app Thread-3 : method: POST,  path: /register,  status: 302,  duration: 0.14,  time: 2022-04-13T03:12:52Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:12:52,410 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:12:52] "[32mPOST /register HTTP/1.1[0m" 302 -
+2022-04-13 03:12:52,423 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.01,  time: 2022-04-13T03:12:52Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:12:52,425 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:12:52] "GET /login HTTP/1.1" 200 -
+2022-04-13 03:13:32,966 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:13:33,017 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:13:53,944 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:13:53,995 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:14:44,635 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.1,  time: 2022-04-13T03:14:44Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:14:44,639 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:14:44] "GET /login HTTP/1.1" 200 -
+2022-04-13 03:14:45,183 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.0,  time: 2022-04-13T03:14:45Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:14:45,189 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:14:45] "GET /login HTTP/1.1" 200 -
+2022-04-13 03:15:44,588 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:15:44,636 INFO werkzeug MainThread :  * Restarting with stat
