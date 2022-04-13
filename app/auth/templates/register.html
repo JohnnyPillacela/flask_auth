@@ -29,9 +29,11 @@
 
 
     <script>
-        var passwordField = document.getElementById("password");
-        var letter = document.getElementById("letter");
-        var lowerCase = 0;
+        const passwordField = document.getElementById("password");
+        const letter = document.getElementById("letter");
+        let hasLowerCase = 0;
+        let hasUpperCase = 0;
+        let hasNumbers = 0;
 
         passwordField.onfocus = function () {
             var message = document.getElementById("message");
@@ -41,25 +43,52 @@
 
         passwordField.onkeyup = function () {
             var progress_bar = document.getElementById("p-bar");
-            // Validate lowercase letters
+
             let lowerCaseLetters = /[a-z]/g;
-            let new_width_value;
-            if(lowerCase === 0) {
-                let p_bar_width_string = progress_bar.style.width;
-                let width_current_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
-                width_current_value = width_current_value + 33;
-                let width_string_new_value = width_current_value.toString();
-                new_width_value = width_string_new_value.concat("%");
-            } else {
-                new_width_value = progress_bar.style.width;
+            let upperCaseLetters = /[A-Z]/g;
+            let numbersPattern = /[0-9]/g;
+
+            let p_bar_width_string = progress_bar.style.width;
+            let p_bar_width_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
+            let can_mod_p_bar = (p_bar_width_value >=0 && p_bar_width_value <= 100) ? 1 : 0;
+
+            let currentLowerCase = passwordField.value.match(lowerCaseLetters) ? 1 : 0;
+            let currentUpperCase = passwordField.value.match(upperCaseLetters) ? 1 : 0;
+            let currentNumbers = passwordField.value.match(numbersPattern) ? 1 : 0;
+
+            if (hasLowerCase !== currentLowerCase && currentLowerCase) {
+                hasLowerCase = 1;
+                p_bar_width_value += 33;
+            } else if (hasLowerCase !== currentLowerCase && !currentLowerCase) {
+                hasLowerCase = 0;
+                p_bar_width_value -= 33;
             }
-            if (passwordField.value.match(lowerCaseLetters)) {
-                progress_bar.style.width = new_width_value;
-                lowerCase = 1;
-            } else {
-                progress_bar.style.width = "0%";
-                lowerCase = 0;
+
+            if (hasUpperCase !== currentUpperCase && currentUpperCase) {
+                hasUpperCase = 1;
+                p_bar_width_value += 33;
+            } else if (hasUpperCase !== currentUpperCase && !currentUpperCase) {
+                hasUpperCase = 0;
+                p_bar_width_value -= 33;
             }
+
+            if (hasNumbers !== currentNumbers && currentNumbers) {
+                hasNumbers = 1;
+                p_bar_width_value += 33;
+            } else if (hasNumbers !== currentNumbers && !currentNumbers) {
+                hasNumbers = 0;
+                p_bar_width_value -= 33;
+            }
+
+            let new_width = p_bar_width_value.toString().concat('%');
+
+            if (hasLowerCase && hasLowerCase && hasNumbers) {
+                progress_bar.style.width = '100%';
+            } else {
+                progress_bar.style.width = new_width;
+            }
+
+            console.log(p_bar_width_value);
         }
 
 
