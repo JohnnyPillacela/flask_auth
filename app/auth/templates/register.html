@@ -36,13 +36,13 @@
         let hasNumbers = 0;
 
         passwordField.onfocus = function () {
-            var message = document.getElementById("message");
+            const message = document.getElementById("message");
             message.style.display = "block";
             message.style.border = "1px solid";
         }
 
         passwordField.onkeyup = function () {
-            var progress_bar = document.getElementById("p-bar");
+            const progress_bar = document.getElementById("p-bar");
 
             let lowerCaseLetters = /[a-z]/g;
             let upperCaseLetters = /[A-Z]/g;
@@ -50,7 +50,6 @@
 
             let p_bar_width_string = progress_bar.style.width;
             let p_bar_width_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
-            let can_mod_p_bar = (p_bar_width_value >=0 && p_bar_width_value <= 100) ? 1 : 0;
 
             let currentLowerCase = passwordField.value.match(lowerCaseLetters) ? 1 : 0;
             let currentUpperCase = passwordField.value.match(upperCaseLetters) ? 1 : 0;
@@ -81,15 +80,21 @@
             }
 
             let new_width = p_bar_width_value.toString().concat('%');
+            let hasAll = hasLowerCase && hasUpperCase && hasNumbers;
+            let hasNone = !hasLowerCase && !hasUpperCase && !hasNumbers
 
-            if (hasLowerCase && hasLowerCase && hasNumbers) {
+            if (hasAll) {
                 progress_bar.style.width = '100%';
+            } else if (hasNone) {
+                progress_bar.style.width = '0%';
             } else {
                 progress_bar.style.width = new_width;
             }
 
             console.log(p_bar_width_value);
         }
+
+
 
 
     </script>
