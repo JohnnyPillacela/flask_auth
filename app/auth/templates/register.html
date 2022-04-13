@@ -30,13 +30,11 @@
 
 
     <script>
-        var passwordField = document.getElementById("password");
-        var letter = document.getElementById("letter");
-        let lowerCase = new Observable(0);
-        let upperCase = new Observable(0);
-        let specialCharacter = new Observable(0);
-        let passwordLength = new Observable(0);
-
+        const passwordField = document.getElementById("password");
+        const letter = document.getElementById("letter");
+        let hasLowerCase = 0;
+        let hasUpperCase = 0;
+        let hasNumbers = 0;
         let id = "p-bar";
 
         function Observable(v) {
@@ -114,34 +112,53 @@
 
 
         passwordField.onkeyup = function () {
-            // Validate lowercase letters
+            var progress_bar = document.getElementById("p-bar");
+
             let lowerCaseLetters = /[a-z]/g;
             let upperCaseLetters = /[A-Z]/g;
-            let specialCharacters = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi;
-            let passwordMinLength = 6;
+            let numbersPattern = /[0-9]/g;
 
-            if(passwordField.value.length >= passwordMinLength) {
-                passwordLength.setValue(1);
-            } else {
-                passwordLength.setValue(0);
-            }
+            let p_bar_width_string = progress_bar.style.width;
+            let p_bar_width_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
+            let can_mod_p_bar = (p_bar_width_value >=0 && p_bar_width_value <= 100) ? 1 : 0;
 
-            if (passwordField.value.match(lowerCaseLetters)) {
-                lowerCase.setValue(1);
-            } else {
-                lowerCase.setValue(0);
-            }
-            if (passwordField.value.match(upperCaseLetters)) {
-                upperCase.setValue(1);
-            } else {
-                upperCase.setValue(0);
-            }
-            if (passwordField.value.match(specialCharacters)) {
-                specialCharacter.setValue(1);
-            } else {
-                specialCharacter.setValue(0);
+            let currentLowerCase = passwordField.value.match(lowerCaseLetters) ? 1 : 0;
+            let currentUpperCase = passwordField.value.match(upperCaseLetters) ? 1 : 0;
+            let currentNumbers = passwordField.value.match(numbersPattern) ? 1 : 0;
+
+            if (hasLowerCase !== currentLowerCase && currentLowerCase) {
+                hasLowerCase = 1;
+                p_bar_width_value += 33;
+            } else if (hasLowerCase !== currentLowerCase && !currentLowerCase) {
+                hasLowerCase = 0;
+                p_bar_width_value -= 33;
             }
 
+            if (hasUpperCase !== currentUpperCase && currentUpperCase) {
+                hasUpperCase = 1;
+                p_bar_width_value += 33;
+            } else if (hasUpperCase !== currentUpperCase && !currentUpperCase) {
+                hasUpperCase = 0;
+                p_bar_width_value -= 33;
+            }
+
+            if (hasNumbers !== currentNumbers && currentNumbers) {
+                hasNumbers = 1;
+                p_bar_width_value += 33;
+            } else if (hasNumbers !== currentNumbers && !currentNumbers) {
+                hasNumbers = 0;
+                p_bar_width_value -= 33;
+            }
+
+            let new_width = p_bar_width_value.toString().concat('%');
+
+            if (hasLowerCase && hasLowerCase && hasNumbers) {
+                progress_bar.style.width = '100%';
+            } else {
+                progress_bar.style.width = new_width;
+            }
+
+            console.log(p_bar_width_value);
         }
 
 
