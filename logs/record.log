@@ -348,3 +348,19 @@
 2022-04-13 03:03:09,723 INFO werkzeug MainThread :  * Restarting with stat
 2022-04-13 03:04:33,011 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
 2022-04-13 03:04:33,055 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:12:22,460 INFO app Thread-3 : method: GET,  path: /register,  status: 200,  duration: 0.08,  time: 2022-04-13T03:12:22Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:12:22,464 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:12:22] "GET /register HTTP/1.1" 200 -
+2022-04-13 03:12:52,408 INFO app Thread-3 : method: POST,  path: /register,  status: 302,  duration: 0.14,  time: 2022-04-13T03:12:52Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:12:52,410 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:12:52] "[32mPOST /register HTTP/1.1[0m" 302 -
+2022-04-13 03:12:52,423 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.01,  time: 2022-04-13T03:12:52Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:12:52,425 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:12:52] "GET /login HTTP/1.1" 200 -
+2022-04-13 03:13:32,966 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:13:33,017 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:13:53,944 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:13:53,995 INFO werkzeug MainThread :  * Restarting with stat
+2022-04-13 03:14:44,635 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.1,  time: 2022-04-13T03:14:44Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:14:44,639 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:14:44] "GET /login HTTP/1.1" 200 -
+2022-04-13 03:14:45,183 INFO app Thread-3 : method: GET,  path: /login,  status: 200,  duration: 0.0,  time: 2022-04-13T03:14:45Z,  ip: 172.18.0.1,  host: localhost,  params: {}, 
+2022-04-13 03:14:45,189 INFO werkzeug Thread-3 : 172.18.0.1 - - [13/Apr/2022 03:14:45] "GET /login HTTP/1.1" 200 -
+2022-04-13 03:15:44,588 INFO werkzeug MainThread :  * Detected change in '/home/myuser/tests/project2_test.py', reloading
+2022-04-13 03:15:44,636 INFO werkzeug MainThread :  * Restarting with stat

@@ -86,15 +86,15 @@ def test_successful_login(client):
 
 def test_successful_registration(client, application):
     response = client.post("/register",
-                           data={"email": "user_to_be_deleted@delete.com", "password": "test1234", "confirm": "test1234"},
+                           data={"email": "user_to_be_delete@delete.org", "password": "test1234", "confirm": "test1234"},
                            follow_redirects=True)
     assert b"Congratulations, you are now a registered user!" in response.data
     with application.app_context():
         client.post("/login",
                     data={"email": "j@j.com", "password": "123456", "confirm": "123456"},
                     follow_redirects=True)
-        user_to_delete = User.query.filter_by(email="user_to_be_deleted@delete.com").first()
-        response = client.post("/users/" + user_to_delete.get_id() + "/delete", follow_redirects=True)
+        user_to_delete = User.query.filter_by(email="user_to_be_delete@delete.org").first()
+        response = client.post("/users/" + str(user_to_delete.get_id()) + "/delete", follow_redirects=True)
         assert response.status_code == 200
 
 
