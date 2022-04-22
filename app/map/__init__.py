@@ -7,9 +7,9 @@ from flask import Blueprint, render_template, abort, url_for, current_app, jsoni
 from flask_login import current_user, login_required
 from jinja2 import TemplateNotFound
 
+from app.auth.forms import csv_upload
 from app.db import db
 from app.db.models import Location
-from app.songs.forms import csv_upload
 from werkzeug.utils import secure_filename, redirect
 from flask import Response
 
