@@ -151,7 +151,7 @@ def edit_profile():
         return redirect(url_for('auth.dashboard'))
     return render_template('profile_edit.html', form=form)
 
-
+# copy everything below and change db name to location copty and put this below location blueprint
 @auth.route('/account', methods=['POST', 'GET'])
 def edit_account():
     user = User.query.get(current_user.get_id())
