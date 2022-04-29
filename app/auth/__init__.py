@@ -7,41 +7,11 @@ from werkzeug.security import generate_password_hash
 from app.auth.decorators import admin_required
 from app.auth.forms import login_form, register_form, profile_form, security_form, user_edit_form, create_user_form
 from app.db import db
-from app.db.models import User, Location, location_user
+from app.db.models import User, Location
 from flask_mail import Message
 
 auth = Blueprint('auth', __name__, template_folder='templates')
 
-@auth.route('/register', methods=['POST', 'GET'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('auth.dashboard'))
-    form = register_form()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is None:
-            user = User(email=form.email.data, password=generate_password_hash(form.password.data), is_admin=0)
-            db.session.add(user)
-            db.session.commit()
-            if user.id == 1:
-                user.is_admin = 1
-                db.session.add(user)
-                db.session.commit()
-
-            msg = Message("Welcome to the site",
-                          sender="from@example.com",
-                          recipients=[user.email])
-            msg.body = "Welcome to the site"
-
-            current_app.mail.send(msg)
-            flash('Congratulations, you are now a registered user!', "success")
-
-            return redirect(url_for('auth.login'), 302)
-
-        else:
-            flash('Already Registered')
-            return redirect(url_for('auth.login'), 302)
-    return render_template('register.html', form=form)
 
 @auth.route('/login', methods=['POST', 'GET'])
 def login():
@@ -69,6 +39,7 @@ def login():
             flash('Invalid username or password')
     return render_template('login.html', form=form)
 
+
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
@@ -94,7 +65,8 @@ def register():
                 return redirect(url_for('auth.register'))
         elif 'password' in form.errors.keys() and 'Passwords must match' in form.errors['password']:
             flash('Passwords must match')
-        elif 'password' in form.errors.keys() and 'Field must be between 6 and 35 characters long.' in form.errors['password']:
+        elif 'password' in form.errors.keys() and 'Field must be between 6 and 35 characters long.' in form.errors[
+            'password']:
             flash('Field must be between 6 and 35 characters long.')
         elif 'email' in form.errors.keys() and 'Invalid email address.' in form.errors['email']:
             flash('Invalid email address.')
@@ -102,6 +74,7 @@ def register():
         print(form.errors.keys())
         print(form.errors.items())
     return render_template('register.html', form=form)
+
 
 @auth.route("/logout")
 @login_required
@@ -115,29 +88,27 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
-
-
-
 @auth.route('/dashboard', methods=['GET'], defaults={"page": 1})
 @auth.route('/dashboard/<int:page>', methods=['GET'])
 @login_required
 def dashboard(page):
     page = page
     per_page = 1000
-    #pagination = Location.query.filter_by(users=current_user.id).paginate(page, per_page, error_out=False)
-    #pagination = Location.query.all(users=current_user.id).paginate(page, per_page, error_out=False)
+    # pagination = Location.query.filter_by(users=current_user.id).paginate(page, per_page, error_out=False)
+    # pagination = Location.query.all(users=current_user.id).paginate(page, per_page, error_out=False)
 
-    #pagination = db.session.query(Location, User).filter(location_user.location_id == Location.id,
-            #                                   location_user.user_id == User.id).order_by(Location.location_id).all()
+    # pagination = db.session.query(Location, User).filter(location_user.location_id == Location.id,
+    #                                   location_user.user_id == User.id).order_by(Location.location_id).all()
 
-    #pagination = User.query.join(location_user).filter(location_user.user_id == current_user.id).paginate()
+    # pagination = User.query.join(location_user).filter(location_user.user_id == current_user.id).paginate()
 
     data = current_user.locations
 
     try:
-        return render_template('dashboard.html',data=data)
+        return render_template('dashboard.html', data=data)
     except TemplateNotFound:
         abort(404)
+
 
 @auth.route('/profile', methods=['POST', 'GET'])
 def edit_profile():
@@ -150,6 +121,7 @@ def edit_profile():
         flash('You Successfully Updated your Profile', 'success')
         return redirect(url_for('auth.dashboard'))
     return render_template('profile_edit.html', form=form)
+
 
 # copy everything below and change db name to location copty and put this below location blueprint
 @auth.route('/account', methods=['POST', 'GET'])
@@ -166,8 +138,7 @@ def edit_account():
     return render_template('manage_account.html', form=form)
 
 
-
-#You should probably move these to a new Blueprint to clean this up.  These functions below are for user management
+# You should probably move these to a new Blueprint to clean this up.  These functions below are for user management
 
 @auth.route('/users')
 @login_required
@@ -216,7 +187,8 @@ def add_user():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None:
-            user = User(email=form.email.data, password=generate_password_hash(form.password.data), is_admin=int(form.is_admin.data))
+            user = User(email=form.email.data, password=generate_password_hash(form.password.data),
+                        is_admin=int(form.is_admin.data))
             db.session.add(user)
             db.session.commit()
             flash('Congratulations, you just created a user', 'success')
@@ -238,5 +210,3 @@ def delete_user(user_id):
     db.session.commit()
     flash('User Deleted', 'success')
     return redirect(url_for('auth.browse_users'), 302)
-
-
