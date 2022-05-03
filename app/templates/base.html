@@ -13,6 +13,11 @@
 
         <title>My Site - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+
+        {% if deployment_environment == "production" %}
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        {% endif %}
+
     {% endblock %}
 </head>
 <body>
