@@ -8,7 +8,12 @@
     {% block content %}
         <a href="{{ url_for("map.location_upload") }}" class="btn col-3 mb-5 btn-info" role="button">Upload Locations</a>
         <h2>Browse: Locations</h2>
-        {{ render_table(data) }}
+        {{ render_table(
+            data,
+            show_actions=True, table_classes='table-striped', header_classes='thead-dark', responsive=True, responsive_class='table-responsive-sm', model=Location,
+            new_url=new_url,
+            edit_url=edit_url,
+            delete_url=delete_url) }}
         {% from 'bootstrap5/pagination.html' import render_pagination %}
 
         {{ render_pagination(pagination) }}
